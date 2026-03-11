@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
+
 # ---------------------------------------------------------
 # Config (선택 A: API_BASE 유지)
 # ---------------------------------------------------------

@@ -4,6 +4,7 @@ import random
 import pygame
 import sys
 
+
 def get_base_dir() -> str:
     # PyInstaller로 빌드된 exe 실행 시: exe가 있는 폴더
     if getattr(sys, "frozen", False):
