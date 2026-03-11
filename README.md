@@ -1,3 +1,1 @@
-# frogjumpgame
-this is game
-made "TaeGeuk"
+<meta http-equiv="refresh" content="0; url=https://s38827550-sys.github.io/frogjumpgame/" />
