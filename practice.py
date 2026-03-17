@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import threading
 import pygame
 import sys
 
@@ -312,8 +313,26 @@ except Exception:
 
 # 업로드 중복 방지 (한 판에서 1회)
 score_uploaded = False
-upload_status = ""        # "UPLOADED" / "QUEUED" / "FAILED"
+upload_status = ""        # "UPLOADED" / "QUEUED" / "FAILED" / "UPLOADING"
 upload_status_time = 0    # 표시 시작 시각(ms)
+
+
+def _upload_score_background(nickname: str, score: int) -> None:
+    """백그라운드 스레드에서 점수 업로드 및 큐 플러시를 수행합니다."""
+    global upload_status, upload_status_time
+    try:
+        upload_score(nickname, score)
+        try:
+            flush_pending(force=True)
+            upload_status = "UPLOADED"
+        except Exception:
+            # 업로드는 큐에 들어갔을 수 있으니 queued로 처리
+            upload_status = "QUEUED"
+    except Exception:
+        upload_status = "FAILED"
+
+    upload_status_time = pygame.time.get_ticks()
+
 
 # =============================
 # 유틸: 게임 한 판 초기화
@@ -322,6 +341,7 @@ def reset_round():
     global score, flies, rect, start_ticks
     global charging, jumping, falling, velocity_y, jump_height, character_img
     global ranking, score_uploaded
+    global upload_status, upload_status_time
 
     score = 0
     flies = [Fly() for _ in range(6)]
@@ -516,20 +536,12 @@ while running:
 
             ranking = save_score_local(score)
 
-           # GAMEOVER로 전환되기 직전(점수가 확정된 순간)
+            # GAMEOVER로 전환되기 직전(점수가 확정된 순간)
             if not score_uploaded:
-                try:
-                    upload_score(nickname, score)
-                    try:
-                        flush_pending(force=True)
-                        upload_status = "UPLOADED"
-                    except Exception:
-                        # 업로드는 큐에 들어갔을 수 있으니 queued로 처리
-                        upload_status = "QUEUED"
-                except Exception:
-                    upload_status = "FAILED"
-
+                # 업로드 작업이 네트워크/파일 IO를 포함하므로 메인 루프를 블록하지 않도록 백그라운드 스레드로 수행
+                upload_status = "UPLOADING"
                 upload_status_time = pygame.time.get_ticks()
+                threading.Thread(target=_upload_score_background, args=(nickname, score), daemon=True).start()
                 score_uploaded = True
 
             game_state = STATE_GAMEOVER
