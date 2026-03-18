@@ -1,44 +1,41 @@
-# 🐸 Frog Jump Game (Client)
+# 🐸 Frog Jump Game (Production Version)
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Pygame](https://img.shields.io/badge/Library-Pygame-green.svg)
 
-개구리를 점프시켜 하늘을 나는 파리를 잡아 높은 점수를 얻는 아케이드 게임입니다. 최근 리팩토링을 통해 더욱 체계적인 모듈 구조로 개선되었습니다.
+개구리를 점프시켜 파리를 잡는 아케이드 게임의 최종 진화형 버전입니다. 전문적인 모듈화 설계를 통해 성능과 유지보수성을 극대화했습니다.
 
-## ✨ 주요 기능
-- **닉네임 프로필**: 첫 실행 시 입력한 닉네임이 `player_profile.json`에 저장되어 다음 실행부터 자동으로 로그인됩니다.
-- **점프 차징 시스템**: Space 키를 누르는 시간에 따라 점프 높이가 조절되는 전략적 플레이.
-- **오프라인 점수 보호**: 네트워크 연결이 불안정할 경우 점수를 `pending_scores.json`에 임시 저장하고, 복구 시 자동 전송합니다.
-- **실시간 서버 연동**: 게임 종료 즉시 전역 리더보드 서버로 점수가 전송됩니다.
-
-## 🎮 게임 조작법
-- **이동**: 좌우 방향키 (`←`, `→`)
-- **점프 차징**: `Space` 키 길게 누르기 (게이지가 찰수록 높게 점프합니다)
-- **점프**: `Space` 키 떼기
-- **재시작**: 게임 오버 화면에서 `R` 키
+## ✨ 핵심 기술 특징
+- **완전 모듈화 (Modular Architecture)**: 모든 핵심 로직이 `core/` 패키지에 부품화되어 관리됩니다.
+- **고급 네트워크 엔진**: 서버 통신을 `network.py`로 분리하여 비동기적인 업로드와 큐잉 시스템을 더 안정적으로 처리합니다.
+- **최적화된 게임 루프**: `GameEngine` 클래스를 통해 입력 처리, 데이터 업데이트, 화면 렌더링이 명확하게 분리되어 실행됩니다.
+- **한글 및 아이콘 지원**: 맑은 고딕 폰트 적용 및 전용 아이콘 설정으로 완성도를 높였습니다.
 
 ## 🚀 시작하기
 ### 1. 필수 라이브러리 설치
 ```bash
-pip install pygame requests
+pip install pygame
 ```
+*기존에 필요했던 requests 라이브러리는 표준 라이브러리(urllib) 사용으로 더 이상 필요하지 않습니다.*
+
 ### 2. 게임 실행
 ```bash
 python main.py
 ```
 
-## 📁 프로젝트 구조
-유지보수를 위해 기능별로 코드가 분할되어 있습니다.
-- **`main.py`**: 게임의 메인 엔트리 포인트 및 전체 흐름 제어.
-- **`leaderboard_client.py`**: 서버 통신 및 점수 큐잉 로직.
-- **`core/`**: 핵심 게임 모듈
-  - `constants.py`: 화면 설정 및 물리 파라미터 등 상수 관리.
-  - `assets.py`: 이미지 리소스 로드 및 `AssetManager`.
-  - `models.py`: `Fly` 객체 등 게임 캐릭터 클래스.
-  - `utils.py`: 프로필 및 랭킹 저장 유틸리티.
-- **`assets/`**: 게임에 사용되는 이미지 및 아이콘 파일.
+## 📁 파일 구조 가이드
+- **`main.py`**: 게임 실행 진입점.
+- **`core/`**: 게임의 두뇌 역할을 하는 패키지
+  - `engine.py`: 게임의 전체 흐름(Loop)과 상태 관리 엔진.
+  - `network.py`: 서버 점수 업로드 및 오프라인 보관(Queueing) 관리.
+  - `constants.py`: 물리 상수 및 전역 설정.
+  - `assets.py`: 이미지 및 사운드 리소스 관리자.
+  - `models.py`: 개구리, 파리 등 게임 객체 설계도.
+  - `utils.py`: 로컬 프로필 및 기록 저장 유틸리티.
+- **`assets/`**: 게임 그래픽 리소스 폴더.
 
-## 🛠 설정 (`config.json`)
+## 🛠 서버 설정 (`config.json`)
+서버와 연동하기 위해 루트 폴더의 `config.json`에서 주소를 수정하세요.
 ```json
 {
   "api_base": "https://frogjump-leaderboard.onrender.com"
