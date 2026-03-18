@@ -30,3 +30,17 @@ class AssetManager:
         self.frog_left = load_img("frog_left.png")
         self.frog_right = load_img("frog_right.png")
         self.fly_origin = load_img("fly.png")
+        
+        # --- 귀여운 폰트 로드 설정 ---
+        # 시스템에 설치된 폰트 중 귀여운 느낌을 주는 것들을 우선 순위로 탐색
+        font_candidates = ["Cooper Black", "Comic Sans MS", "MapleStory", "NanumGothicBold", "Arial Rounded MT Bold"]
+        self.cute_font_name = pygame.font.get_default_font()
+        
+        all_fonts = pygame.font.get_fonts()
+        for f in font_candidates:
+            if f.lower().replace(" ", "") in all_fonts:
+                self.cute_font_name = f
+                break
+
+    def get_font(self, size):
+        return pygame.font.SysFont(self.cute_font_name, size)
