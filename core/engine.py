@@ -39,8 +39,26 @@ class GameEngine:
         # 저장된 토큰 확인
         token = load_web_token()
         if token and token.get("access_token"):
-            self.nickname = token.get("nickname", "PLAYER")
-            self.state = STATE_PROLOGUE
+            # 토큰 만료 체크
+            import json, base64
+            try:
+                payload = token["access_token"].split(".")[1]
+                # base64 패딩 맞추기
+                payload += "=" * (4 - len(payload) % 4)
+                decoded = json.loads(base64.b64decode(payload).decode("utf-8"))
+                exp = decoded.get("exp", 0)
+                import time
+                if exp > time.time():
+                    # 토큰 유효
+                    self.nickname = token.get("nickname", "PLAYER")
+                    self.state = STATE_PROLOGUE
+                else:
+                    # 토큰 만료 → 로그인 화면
+                    print("[Auth] Token expired, please login again")
+                    self.state = STATE_LOGIN
+            except Exception as e:
+                print(f"[Auth] Token check error: {e}")
+                self.state = STATE_LOGIN
         else:
             self.state = STATE_LOGIN
 
