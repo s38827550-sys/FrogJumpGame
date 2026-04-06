@@ -4,7 +4,7 @@ from .constants import *
 from .utils import *
 from .assets import AssetManager
 from .models import Fly
-from .network import upload_score, flush_pending, login_with_supabase, load_web_token, logout
+from .network import upload_score, flush_pending, login, load_token, logout, get_username, is_token_valid
 
 class GameEngine:
     def __init__(self):
@@ -37,35 +37,16 @@ class GameEngine:
         self.login_loading = False
 
         # 저장된 토큰 확인
-        token = load_web_token()
-        if token and token.get("access_token"):
-            # 토큰 만료 체크
-            import json, base64
-            try:
-                payload = token["access_token"].split(".")[1]
-                # base64 패딩 맞추기
-                payload += "=" * (4 - len(payload) % 4)
-                decoded = json.loads(base64.b64decode(payload).decode("utf-8"))
-                exp = decoded.get("exp", 0)
-                import time
-                if exp > time.time():
-                    # 토큰 유효
-                    self.nickname = token.get("nickname", "PLAYER")
-                    self.state = STATE_PROLOGUE
-                else:
-                    # 토큰 만료 → 로그인 화면
-                    print("[Auth] Token expired, please login again")
-                    self.state = STATE_LOGIN
-            except Exception as e:
-                print(f"[Auth] Token check error: {e}")
-                self.state = STATE_LOGIN
+        if is_token_valid():
+            self.nickname = get_username() or "PLAYER"
+            self.state = STATE_PROLOGUE
         else:
             self.state = STATE_LOGIN
 
         self.reset_round_vars()
         self.fade_alpha, self.fade_speed, self.fade_done_time = 255, 3, None
         self.score_uploaded, self.upload_status, self.upload_status_time = False, "", 0
-        try: flush_pending(force=True)
+        try: flush_pending()
         except Exception as e: print(f"Pending sync failed: {e}")
 
     def reset_round_vars(self):
@@ -133,15 +114,13 @@ class GameEngine:
         self.login_error = "Logging in..."
         self.login_loading = True
 
-        result = login_with_supabase(self.login_id.strip(), self.login_pw.strip())
+        result = login(self.login_id.strip(), self.login_pw.strip())
 
         self.login_loading = False
         if result is None:
             self.login_error = "Invalid ID or Password"
-        elif result.get("error") == "deleted":
-            self.login_error = "This account has been deleted"
         else:
-            self.nickname = result.get("nickname", self.login_id)
+            self.nickname = result.get("username", self.login_id)
             self.login_error = ""
             self.state = STATE_PROLOGUE
             self.fade_alpha = 255
@@ -188,7 +167,7 @@ class GameEngine:
     def game_over(self):
         self.ranking = save_score_local(self.score)
         if not self.score_uploaded:
-            self.upload_status = "UPLOADED" if upload_score(self.nickname, self.score) else "QUEUED"
+            self.upload_status = "UPLOADED" if upload_score(self.score) else "QUEUED"
             self.upload_status_time, self.score_uploaded = pygame.time.get_ticks(), True
         self.state = STATE_GAMEOVER
 
