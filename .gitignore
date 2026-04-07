@@ -8,11 +8,13 @@ __pycache__/
 build/
 dist/
 *.spec
+FrogJumpGame.spec
 
 # Data files
 player_profile.json
 ranking.txt
 pending_scores.json
+config.json
 
 # Executables
 *.exe
