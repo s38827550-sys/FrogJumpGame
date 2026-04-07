@@ -43,7 +43,3 @@ python main.py
 - **`core/network.py`**: 서버 연동 및 펜딩 점수 처리.
 - **`core/assets.py`**: 리소스(이미지, 폰트) 관리자.
 - **`core/constants.py`**: 전역 설정 및 경로 상수 (환경별 경로 감지 포함).
-
-## 📊 실시간 월드 랭킹 확인
-웹에서도 실시간 순위를 확인할 수 있습니다!
-[https://frogjump-leaderboard-web.vercel.app/](https://frogjump-leaderboard-web.vercel.app/)
