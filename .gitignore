@@ -1,4 +1,3 @@
-
 # Python
 __pycache__/
 *.py[cod]
@@ -8,7 +7,6 @@ __pycache__/
 build/
 dist/
 *.spec
-FrogJumpGame.spec
 
 # Data files
 player_profile.json
@@ -19,3 +17,4 @@ config.json
 # Executables
 *.exe
 *.zip
+index.html
