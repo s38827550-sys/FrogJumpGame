@@ -5,13 +5,20 @@ import pygame
 
 def get_base_dir() -> str:
     if getattr(sys, "frozen", False):
+        # PyInstaller bundles files in a temp directory _MEIPASS
+        return getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def get_data_dir() -> str:
+    if getattr(sys, "frozen", False):
         return os.path.dirname(sys.executable)
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BASE_DIR = get_base_dir()
+DATA_DIR = get_data_dir()
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
-PROFILE_FILE = os.path.join(BASE_DIR, "player_profile.json")
-RANK_FILE = os.path.join(BASE_DIR, "ranking.txt")
+PROFILE_FILE = os.path.join(DATA_DIR, "player_profile.json")
+RANK_FILE = os.path.join(DATA_DIR, "ranking.txt")
 
 # 화면 설정
 DESIGN_W, DESIGN_H = 1200, 673

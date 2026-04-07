@@ -1,15 +1,29 @@
 # core/network.py
 import json
 import time
+import sys
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
+def get_data_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).parent
+    return Path(__file__).resolve().parent.parent
+
+def get_bundle_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, '_MEIPASS', sys.executable)).resolve().parent
+    return Path(__file__).resolve().parent.parent
+
 CORE_DIR = Path(__file__).resolve().parent
-BASE_DIR = CORE_DIR.parent
-PENDING_FILE = BASE_DIR / "pending_scores.json"
-CONFIG_FILE = BASE_DIR / "config.json"
+BASE_DIR = CORE_DIR.parent # This will be the temp dir if frozen
+DATA_DIR = get_data_dir()
+
+PENDING_FILE = DATA_DIR / "pending_scores.json"
+CONFIG_FILE = BASE_DIR / "config.json" # Keep config in bundle
 TOKEN_FILE = Path.home() / ".frogjump_token.json"
 
 def _load_api_base() -> str:

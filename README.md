@@ -6,18 +6,18 @@
 개구리를 점프시켜 하늘을 나는 파리를 잡아 전 세계 사용자들과 경쟁하는 아케이드 게임입니다. 
 
 ## ✨ 최신 업데이트 (v1.2.3 / Latest Release)
-- **빌드 안정성 확보**: PyInstaller 단일 파일(`.exe`) 빌드 시 자산 경로(sys._MEIPASS) 및 확장자 대소문자 호환성 완벽 지원.
-- **네트워크 고도화**: 서버 연동 실패 시 로컬 큐(Pending Scores)에 점수를 안전하게 저장하고 나중에 재전송하는 기능 최적화.
-- **버그 수정**: 랭킹 데이터 저장 시 발생하던 파일 경로 처리 오류 수정.
-- **Pathlib 통합**: 모든 파일 경로 관리를 `pathlib`으로 일관되게 적용하여 유지보수성 향상.
+- **빌드 및 실행 구조 개선**: PyInstaller 빌드 시 자산(Assets)과 사용자 데이터(Data) 경로를 분리하여 실행 환경의 안정성을 극대화했습니다.
+- **데이터 영속성 강화**: 이제 게임 데이터(`ranking.txt`, `pending_scores.json`)가 임시 폴더가 아닌 실행 파일이 위치한 폴더에 안전하게 저장됩니다.
+- **리소스 경로 감지 자동화**: `core/constants.py`를 통해 개발 환경과 EXE 실행 환경을 자동으로 구분하여 경로를 매핑합니다.
+- **네트워크 안정화**: 오프라인 상태에서 발생한 점수 큐잉(Queuing) 및 재전송 로직을 개선했습니다.
 
-## 📦 실행 파일 배포 (Deployment)
+## 📦 실행 파일 빌드 (Deployment)
 본 게임은 `PyInstaller`를 통해 단일 실행 파일로 배포할 수 있습니다.
 ```powershell
 # 단일 파일 빌드 (아이콘 및 자산 포함)
-pyinstaller --onefile --noconsole --add-data "assets;assets" --add-data "config.json;." --icon "assets/frog.ico" --name "frogjumpgame.v1.2.2" main.py
+pyinstaller --onefile --windowed --add-data "assets;assets" --add-data "config.json;." --icon "assets/frog.ico" --name "FrogJump_v1.2.3" main.py
 ```
-*주의: 빌드 전 `core/constants.py`와 `core/assets.py`의 경로 로직이 배포용으로 설정되어 있는지 확인하세요.*
+*참고: `v1.2.3`부터는 별도의 경로 수정 없이 빌드 후 바로 정상 작동합니다.*
 
 ## 🎮 게임 조작법
 - **이동**: 좌우 방향키 (`←`, `→`)
@@ -42,7 +42,7 @@ python main.py
 - **`core/engine.py`**: UI 애니메이션 및 메인 게임 루프.
 - **`core/network.py`**: 서버 연동 및 펜딩 점수 처리.
 - **`core/assets.py`**: 리소스(이미지, 폰트) 관리자.
-- **`core/constants.py`**: 전역 설정 및 경로 상수.
+- **`core/constants.py`**: 전역 설정 및 경로 상수 (환경별 경로 감지 포함).
 
 ## 📊 실시간 월드 랭킹 확인
 웹에서도 실시간 순위를 확인할 수 있습니다!

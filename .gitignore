@@ -1,4 +1,19 @@
 
-# 실행파일 및 압축파일 무시
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Data files
+player_profile.json
+ranking.txt
+pending_scores.json
+
+# Executables
 *.exe
 *.zip
