@@ -1,20 +1,19 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
+# 데이터 및 설정 파일
+config.json
+pending_scores.json
+player_profile.json
+ranking.txt
 
-# PyInstaller
+# 빌드 및 실행 관련
+__pycache__/
+core/__pycache__/
 build/
 dist/
 *.spec
 
-# Data files
-player_profile.json
-ranking.txt
-pending_scores.json
-config.json
-
-# Executables
-*.exe
-*.zip
+# 웹 관련 (요청하신 index.html 추가)
 index.html
+
+# 가상환경
+.venv/
+venv/
