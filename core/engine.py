@@ -60,7 +60,7 @@ class GameEngine:
         self.velocity_y = self.jump_height = 0
         self.target_y = self.ground_y
         self.character_img = self.assets.frog_normal
-        self.score_uploaded, self.upload_status = [], False, ""
+        self.score_uploaded, self.upload_status = False, ""
 
     def handle_events(self):
         for event in pygame.event.get():
