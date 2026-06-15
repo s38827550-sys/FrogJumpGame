@@ -2,7 +2,6 @@
 import json
 import time
 import sys
-import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.request import Request, urlopen
