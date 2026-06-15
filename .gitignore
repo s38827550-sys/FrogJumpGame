@@ -1,8 +1,6 @@
 # 데이터 및 설정 파일
 config.json
 pending_scores.json
-player_profile.json
-ranking.txt
 
 # 빌드 및 실행 관련
 __pycache__/
