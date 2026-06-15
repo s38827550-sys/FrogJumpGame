@@ -1,7 +1,7 @@
 # core/assets.py
 import os
 import pygame
-from .constants import ASSETS_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
+from .constants import ASSETS_DIR, SCREEN_WIDTH, SCREEN_HEIGHT 
 
 def load_img(name: str):
     return pygame.image.load(os.path.join(ASSETS_DIR, name)).convert_alpha()
@@ -22,7 +22,6 @@ class AssetManager:
         self.background = load_img("background_mygame2.png")
         self.prologue_bg = scale_img_to_screen(load_img("background_mygame_Prologue.png"))
         self.start_bg = scale_img_to_screen(load_img("background_mygame_start.PNG"))
-        self.name_entry_bg = scale_img_to_screen(load_img("name_entry.png"))
 
         self.frog_normal = load_img("frog_normal.png")
         self.frog_jump = load_img("frog_jump.png")

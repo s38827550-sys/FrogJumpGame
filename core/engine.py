@@ -1,10 +1,9 @@
 # core/engine.py
 import pygame, sys, os, math
 from .constants import *
-from .utils import *
 from .assets import AssetManager
 from .models import Fly
-from .network import upload_score, flush_pending, login, load_token, logout, get_username, is_token_valid
+from .network import upload_score, flush_pending, login, get_username, is_token_valid
 
 class GameEngine:
     def __init__(self):
@@ -61,7 +60,7 @@ class GameEngine:
         self.velocity_y = self.jump_height = 0
         self.target_y = self.ground_y
         self.character_img = self.assets.frog_normal
-        self.ranking, self.score_uploaded, self.upload_status = [], False, ""
+        self.score_uploaded, self.upload_status = [], False, ""
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -165,7 +164,6 @@ class GameEngine:
                     self.flies.remove(fly); self.flies.append(Fly(self.assets.fly_origin, self.ground_y))
 
     def game_over(self):
-        self.ranking = save_score_local(self.score)
         if not self.score_uploaded:
             self.upload_status = "UPLOADED" if upload_score(self.score) else "QUEUED"
             self.upload_status_time, self.score_uploaded = pygame.time.get_ticks(), True
@@ -331,19 +329,22 @@ class GameEngine:
         pygame.draw.rect(self.screen, (255, 250, 230), (board_x, board_y, board_w, board_h), border_radius=25)
         pygame.draw.rect(self.screen, (100, 80, 40), (board_x, board_y, board_w, board_h), width=5, border_radius=25)
         title_surf = self.big_font.render("TIME OVER!", True, (230, 50, 50))
+
+        #점수 원래 top5 지정 -> 현재 점수만 설정
+        score_title = self.font.render("YOUR SCORE", True, (80, 60, 30))
+        score_value = self.big_font.render(f"{self.score:,}", True, (230, 50, 50))
+
+        self.screen.blit(
+        score_title,
+        score_title.get_rect(center=(SCREEN_WIDTH // 2, board_y + 180))
+        )
+
+        self.screen.blit(
+        score_value,
+        score_value.get_rect(center=(SCREEN_WIDTH // 2, board_y + 250))
+        )
+        
         self.screen.blit(title_surf, title_surf.get_rect(center=(SCREEN_WIDTH // 2, board_y + 60)))
-        rank_y, line_h = board_y + 130, 55
-        icons = ["🏆", "🥈", "🥉", "⭐", "⭐"]
-        for i, s in enumerate(self.ranking):
-            is_cur = (s == self.score)
-            bg_color = (255, 220, 100) if is_cur else (245, 240, 210)
-            row_rect = pygame.Rect(board_x + 25, rank_y - 10, board_w - 50, 45)
-            pygame.draw.rect(self.screen, bg_color, row_rect, border_radius=12)
-            if is_cur: pygame.draw.rect(self.screen, (255, 100, 0), row_rect, width=3, border_radius=12)
-            rank_txt = f"{icons[i] if i<5 else '•'}  RANK {i+1} : {s:,}"
-            txt_surf = self.font.render(rank_txt, True, (40, 40, 40))
-            self.screen.blit(txt_surf, txt_surf.get_rect(midleft=(board_x + 50, rank_y + 12)))
-            rank_y += line_h
         replay_surf = self.font.render("Press [ R ] to Replay!", True, (80, 60, 30))
         self.screen.blit(replay_surf, replay_surf.get_rect(center=(SCREEN_WIDTH // 2, board_y + board_h - 65)))
         if self.upload_status and (pygame.time.get_ticks() - self.upload_status_time) < 5000:

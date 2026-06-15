@@ -1,0 +1,29 @@
+[FrogJumpGame 기술 스택 및 구조 정리]
+
+1. 핵심 프로그래밍 언어
+   - Python 3
+
+2. 사용된 주요 라이브러리 및 프레임워크
+   - pygame: 게임 엔진 (그래픽 렌더링, 이벤트 처리, 자산 관리, 윈도우 관리 등)
+   - urllib.request (표준 라이브러리): 백엔드 API와의 HTTP 통신 (GET, POST)
+   - json: 데이터 직렬화 및 설정 파일 관리
+   - pathlib, os, sys: 파일 시스템 경로 관리 및 실행 환경 제어
+   - base64, time: JWT(JSON Web Token) 디코딩 및 만료 시간 확인
+
+3. 주요 기술 아키텍처
+   - 게임 엔진 구조: 모듈화된 폴더 구조 (core 패키지 활용)
+   - 상태 머신(State Machine): 로그인, 프롤로그, 게임 시작, 게임 진행, 게임 오버 등 다양한 게임 상태 관리
+   - 네트워킹: RESTful API 연동 (FastAPI 백엔드 서버와 통신)
+   - 인증 시스템: JWT 기반 토큰 인증 방식 사용 및 로컬 토큰 저장
+   - 오프라인 동기화: 네트워크 연결이 원활하지 않을 때 점수를 로컬에 큐잉(Queueing)했다가 나중에 업로드하는 로직 포함
+   - 자산 관리(Asset Management): 이미지, 폰트 등을 효율적으로 불러오고 관리하는 AssetManager 클래스 구현
+   - 데이터 유지(Persistence): 로컬 랭킹 저장(rank.txt) 및 토큰 관리(.frogjump_token.json)
+
+4. 게임 기능적 특징
+   - 물리 효과: 중력(Gravity) 및 점프 속도 제어 로직 구현
+   - 충돌 감지: Rect 기반의 정교한 충돌 체크
+   - UI/UX: 게이지 시스템, 페이드 인/아웃 효과, 한글/영문 폰트 대응, 로그인 인터페이스 구현
+
+5. 연동 백엔드 정보
+   - 기술 스택: FastAPI (추정)
+   - 배포 환경: Render (onrender.com)
