@@ -24,7 +24,7 @@ pyinstaller --onefile --windowed --add-data "assets;assets" --add-data "config.j
 ```
 Github Action으로 자동화 예정 중에 있습니다.
 
-## 🎮 게임 조작법
+## 게임 조작법
 - **이동**: 좌우 방향키 (`←`, `→`)
 - **점프 차징**: `Space` 키 길게 누르기
 - **점프**: `Space` 키 떼기 (높이는 차징 시간에 비례)
@@ -42,7 +42,7 @@ pip install pygame
 python main.py
 ```
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 - **`main.py`**: 게임 실행 진입점.
 - **`core/engine.py`**: UI 애니메이션 및 메인 게임 루프.
 - **`core/network.py`**: 서버 연동 및 펜딩 점수 처리.
