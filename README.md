@@ -1,11 +1,12 @@
-# 🐸 Frog Jump Game
+# FrogJump Game Client
 
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Pygame](https://img.shields.io/badge/Library-Pygame-green.svg)
 
-개구리를 점프시켜 하늘을 나는 파리를 잡아 사용자들과 경쟁하는 아케이드 게임입니다. 
+pygame 기반 점프 게임 클라이언트
+FastAPI 서버와 연동하여 사용자 인증 및 온라인 웹 서비스를 제공합니다.
 
-## ✨ 최신 업데이트 (v.1.2.4)
+## 최신 업데이트 (v.1.2.4)
 1.JWT 기반 로그인 기능을 도입하면서 별도의 닉네임 입력 화면을 제거
 기존에는 로컬 랭킹 저장을 위해 닉네임을 직접 입력받았지만, 현재는 로그인한 계정의 사용자 정보를 사용하므로 중복 입력이 필요 없어졌습니다.
 
@@ -13,8 +14,7 @@
 기존에는 ranking.txt를 이용한 로컬 저장과 PostgreSQL을 동시에 사용했지만, 현재는 PostgreSQL을 단일 데이터 저장소(Single Source of Truth)로 사용하도록 변경하였습니다.
 이에 따라 utils.py의 로컬 랭킹 저장 및 조회 기능은 제거하였습니다.
 
-
-## 📦 실행 파일 빌드 (Deployment)
+## 실행 파일 빌드 (Deployment)
 본 게임은 `PyInstaller`를 통해 단일 실행 파일로 배포할 수 있습니다.
 ```powershell
 # 단일 파일 빌드 (아이콘 및 자산 포함)
@@ -28,7 +28,7 @@ Github Action으로 자동화 예정 중에 있습니다.
 - **점프**: `Space` 키 떼기 (높이는 차징 시간에 비례)
 - **재시작**: 게임 오버 화면에서 `R` 키
 
-## 🚀 시작하기
+## 시작하기
 
 ### 1. 필수 라이브러리 설치
 ```bash
