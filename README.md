@@ -44,24 +44,16 @@ python main.py
 
 ## 프로젝트 구조
 
-FrogJump-Client
-│
-├── assets
-├── core
-│   ├── __init__.py
-│   ├── assets.py
-│   ├── constants.py
-│   ├── engine.py
-│   ├── models.py 
-│   └── network.py
-│  
-├── README.md
-├── main.py
-└── config.json
-
-- **`main.py`**: 게임 실행 진입점.
-- **`core/engine.py`**: UI 애니메이션 및 메인 게임 루프.
-- **`core/network.py`**: 서버 연동 및 펜딩 점수 처리.
-- **`core/assets.py`**: 리소스(이미지, 폰트) 관리자.
-- **`core/constants.py`**: 전역 설정 및 경로 상수 (환경별 경로 감지 포함).
-- **`core/models.py`**: 파리(Fly) 객체 생성 및 관리.
+```directory
+FrogJump-Client/
+├──  assets/                  # 이미지, 사운드 등 게임 리소스 디렉토리
+├──  core/                    # 게임 핵심 로직 및 모듈
+│   ├──  __init__.py
+│   ├──  assets.py            # 리소스 로드 및 관리 매니저
+│   ├──  constants.py         # 게임 내 전역 상수 (화면 크기, 프레임 등)
+│   ├──  engine.py            # 메인 게임 루프 및 상태 관리 엔진
+│   ├──  models.py            # 게임 객체(Entity) 모델
+│   └──  network.py           # 서버 통신 및 패킷 처리를 위한 네트워크 모듈
+├──  config.json              # 서버 IP, 포트 및 클라이언트 설정 파일
+├──  main.py                  # 애플리케이션 진입점 (Entry Point)
+└──  README.md                # 프로젝트 문서
