@@ -1,7 +1,12 @@
 # main.py
 import os
 import sys
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+)
 # 현재 실행 파일의 폴더를 시스템 경로에 추가하여 
 # core 패키지를 어디서든 불러올 수 있게 합니다.
 current_dir = os.path.dirname(os.path.abspath(__file__))
