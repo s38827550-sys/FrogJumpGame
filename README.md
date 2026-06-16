@@ -3,6 +3,8 @@
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Pygame](https://img.shields.io/badge/Library-Pygame-green.svg)
 
+<img width="1393" height="704" alt="Image" src="https://github.com/user-attachments/assets/55dc879f-e0a9-41b8-9a8b-5b05f9de3530" />
+
 pygame 기반 점프 게임 클라이언트
 FastAPI 서버와 연동하여 사용자 인증 및 온라인 웹 서비스를 제공합니다.
 
