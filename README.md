@@ -43,9 +43,25 @@ python main.py
 ```
 
 ## 프로젝트 구조
+
+FrogJump-Client
+│
+├── assets
+├── core
+│   ├── __init__.py
+│   ├── assets.py
+│   ├── constants.py
+│   ├── engine.py
+│   ├── models.py 
+│   └── network.py
+│  
+├── README.md
+├── main.py
+└── config.json
+
 - **`main.py`**: 게임 실행 진입점.
 - **`core/engine.py`**: UI 애니메이션 및 메인 게임 루프.
 - **`core/network.py`**: 서버 연동 및 펜딩 점수 처리.
 - **`core/assets.py`**: 리소스(이미지, 폰트) 관리자.
 - **`core/constants.py`**: 전역 설정 및 경로 상수 (환경별 경로 감지 포함).
-- **`core/models.py`**: 게임에 등장하는 객체를 정의하는 모듈.
+- **`core/models.py`**: 파리(Fly) 객체 생성 및 관리.
